@@ -237,7 +237,7 @@ class TransportMixin(object):
             # cannot parse response body, fallback to retry
         elif _status_code_is_redirect(status_code):  # Redirect
             # for statsbeat, these are not tracked as success nor failures
-            self._consecutive_redirects += 1
+            self._consecutive_redirects = getattr(self, '_consecutive_redirects', 0) + 1
             if self._consecutive_redirects < _MAX_CONSECUTIVE_REDIRECTS:
                 if response.headers:
                     location = response.headers.get("location")
